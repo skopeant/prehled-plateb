@@ -1,0 +1,180 @@
+<div *ngIf="configMode" class="config-shell">
+  <h1>{{ 'Config.Title' | translate }}</h1>
+  <p>{{ 'Config.Intro' | translate }}</p>
+
+  <label class="config-field">
+    <span>{{ 'Config.Path' | translate }}</span>
+    <input type="text" [(ngModel)]="analyticsReportPath" autocomplete="off" placeholder="/shared/Your Institution/CloudApp/prehled-plateb">
+    <small>{{ 'Config.PathHelp' | translate }}</small>
+  </label>
+
+  <div class="button-row">
+    <button type="button" (click)="saveConfiguration()" [disabled]="configurationSaving">
+      {{ configurationSaving ? ('Config.Saving' | translate) : ('Config.Save' | translate) }}
+    </button>
+    <button type="button" (click)="goToMain()">{{ 'Config.Back' | translate }}</button>
+  </div>
+
+  <div class="success" *ngIf="configurationMessage">{{ configurationMessage }}</div>
+  <div class="error" *ngIf="configurationError">{{ configurationError }}</div>
+</div>
+
+<ng-container *ngIf="!configMode">
+  <div *ngIf="configurationLoaded && !isConfigured" class="config-warning">
+    {{ 'Errors.NotConfigured' | translate }}
+  </div>
+<div class="page">
+  <div class="header-row">
+    <div>
+      <h1>{{ 'Main.Title' | translate }}</h1>
+      <p class="intro">{{ 'Main.Intro' | translate }}</p>
+      <p class="api-note">{{ 'Main.AnalyticsNote' | translate }}</p>
+    </div>
+
+    <div class="action-buttons" *ngIf="rows.length">
+      <label class="orientation-select">
+        <span>{{ 'Main.PrintOrientation' | translate }}</span>
+        <select
+          [(ngModel)]="printOrientation"
+          [disabled]="loading || creatingPrint">
+          <option value="portrait">{{ 'Main.Portrait' | translate }}</option>
+          <option value="landscape">{{ 'Main.Landscape' | translate }}</option>
+        </select>
+      </label>
+
+      <button type="button" (click)="downloadCsv()" [disabled]="loading">
+        {{ 'Main.Csv' | translate }}
+      </button>
+
+      <button
+        type="button"
+        (click)="printReport()"
+        [disabled]="loading || creatingPrint">
+        {{ 'Main.Print' | translate }}
+      </button>
+    </div>
+  </div>
+
+  <div class="filters">
+    <label>
+      <span>{{ 'Main.From' | translate }}</span>
+      <input type="date" [(ngModel)]="dateFrom" [disabled]="loading">
+    </label>
+
+    <label>
+      <span>{{ 'Main.To' | translate }}</span>
+      <input type="date" [(ngModel)]="dateTo" [disabled]="loading">
+    </label>
+
+    <label>
+      <span>{{ 'Main.Library' | translate }}</span>
+      <select
+        [(ngModel)]="selectedLibraryCode"
+        [disabled]="loading || loadingLibraries">
+        <option value="">{{ 'Main.AllLibraries' | translate }}</option>
+        <option *ngFor="let library of libraries" [value]="library.code">
+          {{ library.name }} ({{ library.code }})
+        </option>
+      </select>
+    </label>
+
+    <button
+      type="button"
+      class="load-button"
+      (click)="loadReport()"
+      [disabled]="loading || loadingLibraries">
+      {{ loading ? ('Main.Loading' | translate) : ('Main.Load' | translate) }}
+    </button>
+  </div>
+
+  <div class="status" *ngIf="loadingLibraries">
+    {{ 'Main.LoadingLibraries' | translate }}
+  </div>
+
+  <div class="status" *ngIf="progressMessage">
+    {{ progressMessage }}
+  </div>
+
+  <div class="success" *ngIf="resultMessage">
+    {{ resultMessage }}
+  </div>
+
+  <div class="error" *ngIf="errorMessage">
+    {{ errorMessage }}
+  </div>
+
+  <ng-container *ngIf="rows.length">
+    <div class="preview-header">
+      <h2>{{ 'Main.Preview' | translate }}</h2>
+      <div>
+        {{ 'Main.Period' | translate }}:
+        <strong>{{ formatDate(dateFrom) }} – {{ formatDate(dateTo) }}</strong>
+      </div>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>{{ 'Columns.User' | translate }}</th>
+            <th>{{ 'Columns.UnitCode' | translate }}</th>
+            <th>{{ 'Columns.UnitName' | translate }}</th>
+            <th>{{ 'Columns.Operator' | translate }}</th>
+            <th>{{ 'Columns.OperatorId' | translate }}</th>
+            <th>{{ 'Columns.Date' | translate }}</th>
+            <th>{{ 'Columns.TransactionId' | translate }}</th>
+            <th>{{ 'Columns.AdditionalTransactionId' | translate }}</th>
+            <th>{{ 'Columns.ReferenceNumber' | translate }}</th>
+            <th>{{ 'Columns.FeeType' | translate }}</th>
+            <th>{{ 'Columns.TransactionType' | translate }}</th>
+            <th>{{ 'Columns.PaymentMethod' | translate }}</th>
+            <th>{{ 'Columns.Status' | translate }}</th>
+            <th class="num">{{ 'Columns.Credit' | translate }}</th>
+            <th class="num">{{ 'Columns.Debit' | translate }}</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <ng-container *ngFor="let group of groupedRows">
+            <tr class="group-row">
+              <td colspan="15">
+                {{ group.unitName }} ({{ group.unitCode }})
+              </td>
+            </tr>
+
+            <tr *ngFor="let row of group.rows" [class.waive-row]="isWaive(row)">
+              <td>{{ row.userId }}</td>
+              <td>{{ row.unitCode }}</td>
+              <td>{{ row.unitName }}</td>
+              <td>{{ row.operatorName }}</td>
+              <td>{{ row.operatorId }}</td>
+              <td class="nowrap">{{ formatDate(row.transactionDate) }}</td>
+              <td>{{ row.transactionId }}</td>
+              <td>{{ row.additionalTransactionId }}</td>
+              <td>{{ row.referenceNumber }}</td>
+              <td>{{ displayFeeType(row.feeType) }}</td>
+              <td>{{ displayTransactionType(row.transactionType) }}</td>
+              <td>{{ displayPaymentMethod(row.paymentMethod) }}</td>
+              <td>{{ displayStatus(row.status) }}</td>
+              <td class="num">{{ row.credit ? formatMoney(row.credit) : '' }}</td>
+              <td class="num">{{ row.debit ? formatMoney(row.debit) : '' }}</td>
+            </tr>
+
+            <tr class="subtotal-row">
+              <td colspan="13">{{ 'Main.Subtotal' | translate }}</td>
+              <td class="num">{{ formatMoney(group.credit) }}</td>
+              <td class="num">{{ formatMoney(group.debit) }}</td>
+            </tr>
+          </ng-container>
+
+          <tr class="total-row">
+            <td colspan="13">{{ 'Main.Total' | translate }}</td>
+            <td class="num">{{ formatMoney(totalCredit) }}</td>
+            <td class="num">{{ formatMoney(totalDebit) }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </ng-container>
+</div>
+</ng-container>

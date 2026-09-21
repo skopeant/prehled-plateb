@@ -1,0 +1,50 @@
+{
+   "id": "skopeant/prehled-plateb",
+   "title": [
+      {
+         "lang": "en",
+         "text": "Přehled plateb – Payments Report"
+      },
+      {
+         "lang": "cs",
+         "text": "Přehled plateb – Payments Report"
+      }
+   ],
+   "subtitle": [
+      {
+         "lang": "en",
+         "text": "Fine and fee transactions for any date range"
+      },
+      {
+         "lang": "cs",
+         "text": "Přehled přijatých plateb za libovolné období"
+      }
+   ],
+   "author": "Antonín Skopec",
+   "license": "https://github.com/skopeant/prehled-plateb/blob/main/LICENSE",
+   "icon": {
+      "type": "font",
+      "value": "fa fa-credit-card"
+   },
+   "contentSecurity": {
+      "sandbox": {
+         "downloads": true,
+         "popups": true,
+         "popups-to-escape-sandbox": true
+      }
+   },
+   "description": [
+      {
+         "lang": "en",
+         "text": "Creates printable payment and fine/fee transaction reports for arbitrary historical periods from Alma Analytics. Supports library filtering, CSV export, localized output, and portrait or landscape printing. Read-only."
+      },
+      {
+         "lang": "cs",
+         "text": "Vytváří tisknutelné přehledy plateb a transakcí poplatků za libovolné historické období z Alma Analytics. Umožňuje filtrovat podle dílčí knihovny, exportovat CSV, lokalizovat výstup a tisknout na výšku nebo na šířku. Aplikace je pouze pro čtení."
+      }
+   ],
+   "pages": {
+      "config": "/#/config",
+      "help": "https://skopec.vosis.cz/alma/cloudapp/prehled-plateb/"
+   }
+}

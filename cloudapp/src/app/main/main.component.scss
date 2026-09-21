@@ -1,0 +1,215 @@
+:host {
+  display: block;
+}
+
+.page {
+  padding: 16px;
+}
+
+.header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+h1 {
+  margin: 0 0 6px;
+  font-size: 24px;
+}
+
+.intro {
+  margin: 0 0 4px;
+}
+
+.api-note {
+  margin: 0;
+  font-size: 12px;
+  opacity: .75;
+}
+
+.action-buttons {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+button {
+  padding: 8px 14px;
+  cursor: pointer;
+}
+
+button:disabled {
+  cursor: default;
+  opacity: .55;
+}
+
+.filters {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(160px, 1fr)) auto;
+  gap: 12px;
+  align-items: end;
+  margin-bottom: 14px;
+}
+
+.filters label {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  min-width: 0;
+}
+
+.filters label span {
+  font-weight: 600;
+  font-size: 13px;
+}
+
+input,
+select {
+  width: 100%;
+  min-height: 36px;
+  padding: 6px 8px;
+}
+
+.load-button {
+  min-height: 36px;
+}
+
+.status,
+.success,
+.error {
+  margin: 10px 0;
+  padding: 9px 11px;
+  border: 1px solid #bbb;
+}
+
+.error {
+  font-weight: 600;
+}
+
+.preview-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 16px;
+  margin: 18px 0 8px;
+}
+
+.preview-header h2 {
+  margin: 0;
+}
+
+.table-wrap {
+  width: 100%;
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  min-width: 1450px;
+  border-collapse: collapse;
+  table-layout: auto;
+  font-size: 12px;
+}
+
+th,
+td {
+  border: 1px solid #aaa;
+  padding: 5px 6px;
+  vertical-align: top;
+}
+
+th {
+  text-align: left;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.nowrap {
+  white-space: nowrap;
+}
+
+.num {
+  text-align: right;
+  white-space: nowrap;
+}
+
+.group-row td {
+  font-weight: 700;
+  padding-top: 8px;
+  padding-bottom: 8px;
+}
+
+.subtotal-row td {
+  font-weight: 700;
+}
+
+.total-row td {
+  font-weight: 700;
+  border-top: 2px solid currentColor;
+}
+
+@media (max-width: 900px) {
+  .filters {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .header-row {
+    flex-direction: column;
+  }
+}
+
+
+.orientation-select {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  min-width: 150px;
+}
+
+.orientation-select span {
+  font-weight: 600;
+  font-size: 13px;
+}
+
+.orientation-select select {
+  min-height: 36px;
+}
+
+.waive-row td {
+  font-style: italic;
+}
+
+
+.config-shell {
+  padding: 16px;
+}
+
+.config-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin: 16px 0;
+}
+
+.config-field span {
+  font-weight: 600;
+}
+
+.config-field small {
+  opacity: .75;
+}
+
+.button-row {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.config-warning {
+  margin: 16px;
+  padding: 10px 12px;
+  border: 1px solid #c99;
+  font-weight: 600;
+}
