@@ -24,7 +24,8 @@
     "PrintReady": "The print preview opened.",
     "CsvReady": "The CSV file was created.",
     "AnalyticsNote": "Source: Alma Analytics – Fines and Fees.",
-    "ProgressAnalytics": "Loading data from Alma Analytics…"
+    "ProgressAnalytics": "Loading data from Alma Analytics…",
+    "ShowWaived": "Show waived transactions"
   },
   "Columns": {
     "User": "USER ID",

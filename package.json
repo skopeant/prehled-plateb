@@ -1,6 +1,6 @@
 {
   "name": "prehled-plateb",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Ex Libris Alma Cloud App for payment and fine/fee transaction reports over arbitrary date ranges.",
   "license": "MIT",
   "private": true,

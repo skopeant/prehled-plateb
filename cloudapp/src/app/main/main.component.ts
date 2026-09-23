@@ -51,6 +51,7 @@ export class MainComponent implements OnInit {
   loading = false;
   creatingPrint = false;
   printOrientation: 'portrait' | 'landscape' = 'landscape';
+  showWaived = false;
 
   progressMessage = '';
   resultMessage = '';
@@ -684,6 +685,14 @@ export class MainComponent implements OnInit {
     return String(value).trim();
   }
 
+  get visibleRows(): PaymentRow[] {
+    if (this.showWaived) {
+      return this.rows;
+    }
+
+    return this.rows.filter(row => !this.isWaive(row));
+  }
+
   get groupedRows(): Array<{
     unitCode: string;
     unitName: string;
@@ -693,7 +702,7 @@ export class MainComponent implements OnInit {
   }> {
     const groups = new Map<string, PaymentRow[]>();
 
-    for (const row of this.rows) {
+    for (const row of this.visibleRows) {
       const key =
         row.unitCode ||
         row.unitName ||
@@ -725,13 +734,13 @@ export class MainComponent implements OnInit {
   }
 
   get totalCredit(): number {
-    return this.rows
+    return this.visibleRows
       .filter(row => row.transactionType === 'Payment')
       .reduce((sum, row) => sum + row.credit, 0);
   }
 
   get totalDebit(): number {
-    return this.rows
+    return this.visibleRows
       .filter(row => row.transactionType === 'Payment')
       .reduce((sum, row) => sum + row.debit, 0);
   }
@@ -748,7 +757,7 @@ export class MainComponent implements OnInit {
   }
 
   printReport(): void {
-    if (!this.rows.length || this.creatingPrint) return;
+    if (!this.visibleRows.length || this.creatingPrint) return;
 
     this.creatingPrint = true;
     this.errorMessage = '';
@@ -863,7 +872,7 @@ ${body}
   }
 
   downloadCsv(): void {
-    if (!this.rows.length) return;
+    if (!this.visibleRows.length) return;
 
     const headers = [
       'User',
@@ -886,7 +895,7 @@ ${body}
 
     const lines = [
       headers.map(value => this.csvCell(value)).join(';'),
-      ...this.rows.map(row => [
+      ...this.visibleRows.map(row => [
         row.userId,
         row.unitCode,
         row.unitName,

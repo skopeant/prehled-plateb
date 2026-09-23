@@ -31,7 +31,7 @@
       <p class="api-note">{{ 'Main.AnalyticsNote' | translate }}</p>
     </div>
 
-    <div class="action-buttons" *ngIf="rows.length">
+    <div class="action-buttons" *ngIf="visibleRows.length">
       <label class="orientation-select">
         <span>{{ 'Main.PrintOrientation' | translate }}</span>
         <select
@@ -78,6 +78,14 @@
       </select>
     </label>
 
+    <label class="checkbox-filter">
+      <input
+        type="checkbox"
+        [(ngModel)]="showWaived"
+        [disabled]="loading">
+      <span>{{ 'Main.ShowWaived' | translate }}</span>
+    </label>
+
     <button
       type="button"
       class="load-button"
@@ -103,7 +111,7 @@
     {{ errorMessage }}
   </div>
 
-  <ng-container *ngIf="rows.length">
+  <ng-container *ngIf="visibleRows.length">
     <div class="preview-header">
       <h2>{{ 'Main.Preview' | translate }}</h2>
       <div>

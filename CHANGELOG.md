@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.0.1
+
+- Added **Show waived transactions / Zobrazovat prominutí** checkbox.
+- Waived transactions are hidden by default.
+- When enabled, waived transactions are included in preview, browser print, and CSV export.
+- Payment subtotals and totals remain based on `Payment` transactions only.
+- Restricted release to Czech Technical University in Prague (`420CARDS_CVUT`).
+
 ## 1.0.0
 
 - First stable release prepared for Ex Libris App Center submission.

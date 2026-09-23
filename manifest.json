@@ -36,15 +36,18 @@
    "description": [
       {
          "lang": "en",
-         "text": "Creates printable payment and fine/fee transaction reports for arbitrary historical periods from Alma Analytics. Supports library filtering, CSV export, localized output, and portrait or landscape printing. Read-only."
+         "text": "Creates printable payment and fine/fee transaction reports from Alma Analytics, with library filtering, CSV export, optional waived transactions, and portrait/landscape printing. Read-only. Restricted to Czech Technical University in Prague."
       },
       {
          "lang": "cs",
-         "text": "Vytváří tisknutelné přehledy plateb a transakcí poplatků za libovolné historické období z Alma Analytics. Umožňuje filtrovat podle dílčí knihovny, exportovat CSV, lokalizovat výstup a tisknout na výšku nebo na šířku. Aplikace je pouze pro čtení."
+         "text": "Vytváří tiskové přehledy plateb a transakcí poplatků z Alma Analytics s filtrem knihovny, exportem CSV, volitelným zobrazením prominutí a tiskem na výšku/šířku. Aplikace je pouze pro čtení a je určena pouze pro ČVUT."
       }
    ],
    "pages": {
       "config": "/#/config",
       "help": "https://skopec.vosis.cz/alma/cloudapp/prehled-plateb/"
-   }
+   },
+   "relevantForInst": [
+      "420CARDS_CVUT"
+   ]
 }

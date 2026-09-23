@@ -24,7 +24,8 @@
     "PrintReady": "Otevřel se náhled tisku.",
     "CsvReady": "CSV soubor byl vytvořen.",
     "AnalyticsNote": "Zdroj: Alma Analytics – Fines and Fees.",
-    "ProgressAnalytics": "Načítám data z Alma Analytics…"
+    "ProgressAnalytics": "Načítám data z Alma Analytics…",
+    "ShowWaived": "Zobrazovat prominutí"
   },
   "Columns": {
     "User": "ID čtenáře",

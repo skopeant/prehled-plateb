@@ -213,3 +213,17 @@ th {
   border: 1px solid #c99;
   font-weight: 600;
 }
+
+.checkbox-filter {
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center;
+  gap: 7px;
+  min-height: 38px;
+  white-space: nowrap;
+}
+
+.checkbox-filter input {
+  width: auto;
+  margin: 0;
+}
