@@ -1,7 +1,7 @@
 {
   "Main": {
     "Title": "Payments Report",
-    "Intro": "Select a date range and optionally a library. Data is loaded from Alma Analytics.",
+    "Intro": "Select a date range and optionally a library. After loading, the result can be filtered by the operator who processed the transaction.",
     "From": "From",
     "To": "To",
     "Library": "Library",
@@ -25,7 +25,10 @@
     "CsvReady": "The CSV file was created.",
     "AnalyticsNote": "Source: Alma Analytics – Fines and Fees.",
     "ProgressAnalytics": "Loading data from Alma Analytics…",
-    "ShowWaived": "Show waived transactions"
+    "ShowWaived": "Show waived transactions",
+    "OperatorFilter": "Processed by",
+    "AllOperators": "All operators",
+    "SelectedOperator": "Processed by"
   },
   "Columns": {
     "User": "USER ID",

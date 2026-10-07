@@ -31,28 +31,6 @@
       <p class="api-note">{{ 'Main.AnalyticsNote' | translate }}</p>
     </div>
 
-    <div class="action-buttons" *ngIf="visibleRows.length">
-      <label class="orientation-select">
-        <span>{{ 'Main.PrintOrientation' | translate }}</span>
-        <select
-          [(ngModel)]="printOrientation"
-          [disabled]="loading || creatingPrint">
-          <option value="portrait">{{ 'Main.Portrait' | translate }}</option>
-          <option value="landscape">{{ 'Main.Landscape' | translate }}</option>
-        </select>
-      </label>
-
-      <button type="button" (click)="downloadCsv()" [disabled]="loading">
-        {{ 'Main.Csv' | translate }}
-      </button>
-
-      <button
-        type="button"
-        (click)="printReport()"
-        [disabled]="loading || creatingPrint">
-        {{ 'Main.Print' | translate }}
-      </button>
-    </div>
   </div>
 
   <div class="filters">
@@ -92,6 +70,50 @@
       (click)="loadReport()"
       [disabled]="loading || loadingLibraries">
       {{ loading ? ('Main.Loading' | translate) : ('Main.Load' | translate) }}
+    </button>
+  </div>
+
+  <div class="operator-filter" *ngIf="rows.length">
+    <label>
+      <span>{{ 'Main.OperatorFilter' | translate }}</span>
+      <select
+        [ngModel]="selectedOperatorKey"
+        (ngModelChange)="changeOperator($event)"
+        [disabled]="loading">
+        <option [ngValue]="''">{{ 'Main.AllOperators' | translate }}</option>
+        <option *ngFor="let operator of operatorOptions" [ngValue]="operator.key">
+          {{ operatorLabel(operator) }}
+        </option>
+      </select>
+    </label>
+  </div>
+
+  <div class="report-actions" *ngIf="visibleRows.length">
+    <label class="orientation-select">
+      <span>{{ 'Main.PrintOrientation' | translate }}</span>
+      <select
+        [ngModel]="printOrientation"
+        (ngModelChange)="changePrintOrientation($event)"
+        [disabled]="loading || creatingPrint">
+        <option [ngValue]="'portrait'">{{ 'Main.Portrait' | translate }}</option>
+        <option [ngValue]="'landscape'">{{ 'Main.Landscape' | translate }}</option>
+      </select>
+    </label>
+
+    <button
+      type="button"
+      class="report-action-button"
+      (click)="downloadCsv()"
+      [disabled]="loading">
+      {{ 'Main.Csv' | translate }}
+    </button>
+
+    <button
+      type="button"
+      class="report-action-button"
+      (click)="printReport()"
+      [disabled]="loading || creatingPrint">
+      {{ 'Main.Print' | translate }}
     </button>
   </div>
 

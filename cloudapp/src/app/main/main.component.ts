@@ -8,6 +8,12 @@ interface AlmaLibrary {
   name: string;
 }
 
+interface OperatorOption {
+  key: string;
+  name: string;
+  id: string;
+}
+
 interface PaymentRow {
   key: string;
   userId: string;
@@ -46,6 +52,7 @@ export class MainComponent implements OnInit {
   libraries: AlmaLibrary[] = [];
   rows: PaymentRow[] = [];
   selectedLibraryCode = '';
+  selectedOperatorKey = '';
 
   loadingLibraries = false;
   loading = false;
@@ -183,6 +190,7 @@ export class MainComponent implements OnInit {
     this.resultMessage = '';
     this.progressMessage = '';
     this.rows = [];
+    this.selectedOperatorKey = '';
 
     if (!this.isValidDate(this.dateFrom) || !this.isValidDate(this.dateTo)) {
       this.errorMessage = this.t('Errors.Dates');
@@ -210,6 +218,15 @@ export class MainComponent implements OnInit {
       );
 
       let rows = this.parseAnalyticsResponse(response);
+
+      // Defensive client-side date filter:
+      // even if Alma Analytics ignores or broadens the prompted filter,
+      // only transactions inside the user-selected inclusive range are shown/exported/printed.
+      rows = rows.filter(
+        row =>
+          row.transactionDate >= this.dateFrom &&
+          row.transactionDate <= this.dateTo
+      );
 
       // First test version: Unit Code is filtered client-side.
       if (this.selectedLibraryCode) {
@@ -685,12 +702,47 @@ export class MainComponent implements OnInit {
     return String(value).trim();
   }
 
-  get visibleRows(): PaymentRow[] {
-    if (this.showWaived) {
-      return this.rows;
+  get operatorOptions(): OperatorOption[] {
+    const options = new Map<string, OperatorOption>();
+
+    for (const row of this.rows) {
+      const key = this.operatorKey(row);
+      if (!key) continue;
+
+      const current = options.get(key);
+      const candidate: OperatorOption = {
+        key,
+        name: row.operatorName || row.operatorId,
+        id: row.operatorId
+      };
+
+      if (!current || (!current.name && candidate.name)) {
+        options.set(key, candidate);
+      }
     }
 
-    return this.rows.filter(row => !this.isWaive(row));
+    return Array.from(options.values()).sort((a, b) =>
+      a.name.localeCompare(b.name, this.currentLang(), {
+        numeric: true,
+        sensitivity: 'base'
+      })
+    );
+  }
+
+  get visibleRows(): PaymentRow[] {
+    let rows = this.rows;
+
+    if (this.selectedOperatorKey) {
+      rows = rows.filter(
+        row => this.operatorKey(row) === this.selectedOperatorKey
+      );
+    }
+
+    if (!this.showWaived) {
+      rows = rows.filter(row => !this.isWaive(row));
+    }
+
+    return rows;
   }
 
   get groupedRows(): Array<{
@@ -754,6 +806,50 @@ export class MainComponent implements OnInit {
       this.libraryName(this.selectedLibraryCode) ||
       this.selectedLibraryCode
     );
+  }
+
+  get selectedOperatorName(): string {
+    if (!this.selectedOperatorKey) {
+      return this.t('Main.AllOperators');
+    }
+
+    const option = this.operatorOptions.find(
+      item => item.key === this.selectedOperatorKey
+    );
+
+    if (!option) {
+      return this.t('Main.AllOperators');
+    }
+
+    return this.operatorLabel(option);
+  }
+
+  operatorLabel(option: OperatorOption): string {
+    if (option.name && option.id && option.name !== option.id) {
+      return `${option.name} (${option.id})`;
+    }
+
+    return option.name || option.id;
+  }
+
+  changeOperator(value: string | null | undefined): void {
+    this.selectedOperatorKey = value || '';
+  }
+
+  changePrintOrientation(value: 'portrait' | 'landscape' | null | undefined): void {
+    this.printOrientation = value === 'portrait' ? 'portrait' : 'landscape';
+  }
+
+  private operatorKey(row: PaymentRow): string {
+    if (row.operatorId) {
+      return `id:${row.operatorId}`;
+    }
+
+    if (row.operatorName) {
+      return `name:${row.operatorName}`;
+    }
+
+    return '';
   }
 
   printReport(): void {
@@ -821,6 +917,7 @@ export class MainComponent implements OnInit {
 <h2>${this.escapeHtml(this.t('Main.Title'))}</h2>
 <div>${this.escapeHtml(this.t('Main.Period'))}: ${this.escapeHtml(this.formatDate(this.dateFrom))} – ${this.escapeHtml(this.formatDate(this.dateTo))}</div>
 <div>${this.escapeHtml(this.t('Main.SelectedLibrary'))}: ${this.escapeHtml(this.selectedLibraryName)}</div>
+<div>${this.escapeHtml(this.t('Main.SelectedOperator'))}: ${this.escapeHtml(this.selectedOperatorName)}</div>
 
 <table>
 <thead>

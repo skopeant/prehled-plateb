@@ -1,5 +1,16 @@
 # Changelog
 
+## 1.1.0
+
+- Added operator filtering using `Operator Full Name` and `Operator Primary Identifier` from the existing Analytics report.
+- Operator list is built dynamically from transactions loaded for the selected date range and library.
+- Selecting **All operators / Všichni** reliably clears the operator filter.
+- Operator filtering affects preview, browser print, CSV export, subtotals, and totals.
+- Print orientation can be changed after Analytics data are loaded.
+- Moved print orientation, CSV export, and Print controls below the report filters and aligned them on one row.
+- Added a defensive client-side date-range filter so transactions outside the selected inclusive range are excluded even if Analytics returns broader data.
+- Kept optional waived transactions and CTU-only restriction (`420CARDS_CVUT`).
+
 ## 1.0.1
 
 - Added **Show waived transactions / Zobrazovat prominutí** checkbox.

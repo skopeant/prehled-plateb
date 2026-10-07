@@ -1,15 +1,18 @@
 # Přehled plateb – Payments Report
 
-> Aktuální verze: **v1.0.1**
+> Aktuální verze: **v1.1.0**
 
 Alma Cloud App pro přehledy plateb a transakcí poplatků z Alma Analytics.
 
 ## Dostupnost
+
 Tato verze je určena pouze pro **České vysoké učení technické v Praze** (`420CARDS_CVUT`).
 
 ## Funkce
-- historický rozsah dat
+
+- libovolný historický rozsah dat
 - filtrování podle knihovny
+- filtrování podle osoby, která transakci zpracovala
 - český a anglický výstup
 - export CSV
 - tisk na výšku / na šířku
@@ -17,13 +20,38 @@ Tato verze je určena pouze pro **České vysoké učení technické v Praze** (
 - volitelné zobrazení prominutí
 - pouze čtení
 
-### Prominutí
-Transakce `Waive / Prominutí` jsou ve výchozím stavu **skryté**. Po zaškrtnutí **Zobrazovat prominutí** se zahrnou do náhledu, tisku a CSV. Mezisoučty a celkový součet se nadále počítají pouze z `Payment / Platba`.
+## Filtr podle osoby
+
+Po načtení dat z Analytics pro zvolené období a knihovnu aplikace sestaví seznam osob, které se v načtených transakcích skutečně vyskytují.
+
+Filtr **Zpracoval**:
+- je ve výchozím stavu nastaven na **Všichni**
+- nabízí pouze osoby z aktuálně načtených dat
+- interně používá `Operator Primary Identifier`, pokud je k dispozici
+- okamžitě filtruje náhled, tisk, CSV, mezisoučty i celkový součet
+- kombinuje se s volbou **Zobrazovat prominutí**
+
+## Prominutí
+
+Transakce `Waive / Prominutí` jsou ve výchozím stavu **skryté**.
+
+Po zaškrtnutí **Zobrazovat prominutí** se zahrnou do:
+- náhledu
+- tisku
+- exportu CSV
+
+Mezisoučty a celkový součet se nadále počítají pouze z `Payment / Platba`.
+
+## Filtrování období
+
+Zvolené období se použije v dotazu do Alma Analytics a po načtení se navíc zkontroluje i klientsky. Tím se zabrání zobrazení transakcí mimo zadaný rozsah, i kdyby Analytics vrátila širší množinu dat.
 
 ## Alma Analytics report
+
 Aplikace používá institucí nastavený report v subject area **Fines and Fees**.
 
 Požadované pořadí kritérií:
+
 1. Unit Code
 2. Unit Name
 3. Fine Fee Additional Transaction Id
@@ -47,12 +75,15 @@ Požadované filtry:
 Cesta k Analytics reportu se nastavuje v konfiguraci Cloud App a musí začínat `/shared/`.
 
 ## Bezpečnost
+
 Aplikace je pouze pro čtení. V Almě nevytváří, neupravuje ani nemaže žádné záznamy.
 
 ## Repozitář
+
 https://github.com/skopeant/prehled-plateb
 
 ## Licence
+
 MIT License
 
 Copyright (c) 2026 Antonín Skopec

@@ -1,15 +1,18 @@
 # Přehled plateb – Payments Report
 
-> Current version: **v1.0.1**
+> Current version: **v1.1.0**
 
 Alma Cloud App for payment and fine/fee transaction reports from Alma Analytics.
 
 ## Availability
+
 This version is restricted to **Czech Technical University in Prague** (`420CARDS_CVUT`).
 
 ## Features
-- historical date range
+
+- arbitrary historical date range
 - library filtering
+- operator filtering
 - Czech and English output
 - CSV export
 - portrait/landscape browser printing
@@ -17,13 +20,38 @@ This version is restricted to **Czech Technical University in Prague** (`420CARD
 - optional waived transactions
 - read-only operation
 
-### Waived transactions
-`Waive` transactions are **hidden by default**. Enable **Show waived transactions** to include them in preview, print, and CSV. Payment subtotals and totals are still based on `Payment` transactions only.
+## Operator filter
+
+After loading Analytics data for the selected date range and library, the app builds a list of operators that actually occur in the loaded transactions.
+
+The **Processed by** filter:
+- defaults to **All operators**
+- shows operators from the current loaded result only
+- uses `Operator Primary Identifier` internally when available
+- immediately filters preview, print, CSV export, subtotals, and totals
+- works together with the optional waived-transactions filter
+
+## Waived transactions
+
+`Waive` transactions are **hidden by default**.
+
+Enable **Show waived transactions** to include them in:
+- preview
+- browser print
+- CSV export
+
+Payment subtotals and totals remain based on `Payment` transactions only.
+
+## Date filtering
+
+The selected date range is applied to the Alma Analytics request and is additionally enforced client-side after parsing the returned data. This prevents transactions outside the selected inclusive range from appearing if Analytics returns a broader result set.
 
 ## Alma Analytics report
+
 The app uses an institution-configured report in the **Fines and Fees** subject area.
 
 Required criteria order:
+
 1. Unit Code
 2. Unit Name
 3. Fine Fee Additional Transaction Id
@@ -47,12 +75,15 @@ Required filters:
 The Analytics report path is configured in the Cloud App configuration and must start with `/shared/`.
 
 ## Security
+
 The app is read-only. It does not create, modify, or delete Alma records.
 
 ## Repository
+
 https://github.com/skopeant/prehled-plateb
 
 ## License
+
 MIT License
 
 Copyright (c) 2026 Antonín Skopec
