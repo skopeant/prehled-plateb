@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.1.1
+
+- Security/dependency update only; no functional changes.
+- Added npm override `piscina: 4.9.4` to replace vulnerable transitive `piscina` 4.6.1 from the Angular 18 build toolchain.
+- Kept `tar: 7.5.22` override.
+- Release remains restricted to Czech Technical University in Prague (`420CARDS_CVUT`).
+
 ## 1.1.0
 
 - Added operator filtering using `Operator Full Name` and `Operator Primary Identifier` from the existing Analytics report.

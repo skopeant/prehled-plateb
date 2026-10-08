@@ -1,6 +1,6 @@
 # Přehled plateb – Payments Report
 
-> Current version: **v1.1.0**
+> Current version: **v1.1.1**
 
 Alma Cloud App for payment and fine/fee transaction reports from Alma Analytics.
 
@@ -73,6 +73,13 @@ Required filters:
 - `Transaction Date` — **is not null**
 
 The Analytics report path is configured in the Cloud App configuration and must start with `/shared/`.
+
+
+## Security dependency update
+
+Version 1.1.1 adds an npm override for `piscina` **4.9.4** to replace the vulnerable transitive `piscina` 4.6.1 pulled in by the Angular 18 build toolchain.
+
+This is a dependency/security update only; application functionality is unchanged.
 
 ## Security
 

@@ -1,6 +1,6 @@
 # Přehled plateb – Payments Report
 
-> Aktuální verze: **v1.1.0**
+> Aktuální verze: **v1.1.1**
 
 Alma Cloud App pro přehledy plateb a transakcí poplatků z Alma Analytics.
 
@@ -73,6 +73,13 @@ Požadované filtry:
 - `Transaction Date` — **is not null**
 
 Cesta k Analytics reportu se nastavuje v konfiguraci Cloud App a musí začínat `/shared/`.
+
+
+## Bezpečnostní aktualizace závislostí
+
+Verze 1.1.1 přidává npm override pro `piscina` **4.9.4**, který nahrazuje zranitelnou tranzitivní verzi `piscina` 4.6.1 používanou build toolchainem Angularu 18.
+
+Jde pouze o bezpečnostní aktualizaci závislostí; funkce aplikace se nemění.
 
 ## Bezpečnost
 
